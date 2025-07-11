@@ -1,5 +1,5 @@
 import "@styles/page/Header.css";
-import TicketHubLogo from "https://res.cloudinary.com/dcyvepirc/image/upload/v1752225183/logo-removebg_zixihe.png";
+import TicketHubLogo from "@assets/Logo/logo-removebg.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { PATH_PUBLIC } from "@/routes/paths";
 
