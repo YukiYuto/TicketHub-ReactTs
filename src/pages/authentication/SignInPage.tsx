@@ -88,15 +88,15 @@ const SignInPage = () => {
       });
 
       // Hiển thị error message thân thiện hơn
-      if (error.code === "auth/popup-closed-by-user") {
-        alert("Đăng nhập bị hủy bởi người dùng");
-      } else if (error.code === "auth/network-request-failed") {
-        alert("Lỗi kết nối mạng. Vui lòng thử lại.");
-      } else if (error.code === "auth/unauthorized-domain") {
-        alert("Domain chưa được ủy quyền. Vui lòng liên hệ admin.");
-      } else {
-        alert(`Lỗi đăng nhập Google: ${error.message}`);
-      }
+      // if (error.code === "auth/popup-closed-by-user") {
+      //   alert("Đăng nhập bị hủy bởi người dùng");
+      // } else if (error.code === "auth/network-request-failed") {
+      //   alert("Lỗi kết nối mạng. Vui lòng thử lại.");
+      // } else if (error.code === "auth/unauthorized-domain") {
+      //   alert("Domain chưa được ủy quyền. Vui lòng liên hệ admin.");
+      // } else {
+      //   alert(`Lỗi đăng nhập Google: ${error.message}`);
+      // }
     }
   };
 
