@@ -1,0 +1,41 @@
+import Layout from "@/components/user/layout";
+import HomePage from "@/pages/home/HomePage";
+import NotFoundPage from "@/pages/public/NotFoundPage";
+import { Route, Routes } from "react-router-dom";
+import { PATH_ADMIN, PATH_PUBLIC } from "@/routes/paths";
+import SignInPage from "@/pages/authentication/SignInPage";
+import SignUpCustomer from "@/pages/authentication/SignUpCustomer";
+import SignUpOrganizer from "@/pages/authentication/SignUpOrganizer";
+import AdminLayout from "@/components/admin/layout";
+import AdminDashboard from "@/pages/admin/dashboard/AdminPage";
+import { RolesEnum } from "@/types/auth.types";
+import AuthGuard from "@/auth/authGuard";
+
+const GlobalRouter = () => {
+  return (
+    <Routes>
+      {/* Public Routes with User Layout */}
+      <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path={PATH_PUBLIC.signIn} element={<SignInPage />} />
+        <Route path={PATH_PUBLIC.signUpCustomer} element={<SignUpCustomer />} />
+        <Route
+          path={PATH_PUBLIC.signUpOrganizer}
+          element={<SignUpOrganizer />}
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+
+      {/* Admin Routes */}
+      <Route element={<AuthGuard roles={[RolesEnum.ADMIN]} />}>
+        <Route element={<AdminLayout />}>
+          <Route path={PATH_ADMIN.dashboard} element={<AdminDashboard />} />
+        </Route>
+      </Route>
+
+      <Route path={PATH_PUBLIC.unauthorized} element={<HomePage />} />
+    </Routes>
+  );
+};
+
+export default GlobalRouter;

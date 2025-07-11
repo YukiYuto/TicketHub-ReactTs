@@ -1,0 +1,149 @@
+/* Header Styles */
+.header {
+  /* background: linear-gradient(to right, #f97316, #ea580c); */
+  background: #111827;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand Section */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  /* background-color: white; */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.header-title {
+  color: white;
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-title span {
+  color: #f97316;
+}
+
+.header-subtitle {
+  font-size: 0.875rem;
+  color: #5e5956;
+  margin: 0;
+  font-weight: normal;
+  display: flex;
+}
+
+/* Navigation */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.nav-link:hover {
+  color: #fed7aa;
+}
+
+.header-brand {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.4rem;
+  border-radius: 16px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #f97316;
+}
+
+.btn-secondary:hover {
+  /* background-color: #fef3e2; */
+  background-color: #f7d9aa;
+}
+
+.btn-primary {
+  background-color: #f97316;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #9a3412;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-nav {
+    display: none;
+  }
+
+  .header-container {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

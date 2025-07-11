@@ -1,0 +1,470 @@
+/* Footer Container */
+.footer {
+  background-color: #111827;
+  color: #e5e7eb;
+  padding: 60px 20px;
+  font-family: sans-serif;
+  margin-top: 0;
+}
+
+.footer .footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.footer p,
+.footer li,
+.footer a {
+  color: #9ca3af;
+  font-size: 14px;
+  line-height: 1.8;
+  text-decoration: none;
+}
+
+.footer ul li {
+  margin: 12px 0;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Style cho footer lists */
+.footer .footer-list {
+  list-style: none;
+  padding: 1px;
+  margin: 1px;
+}
+
+.footer .footer-list li {
+  margin: 10px 0;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.footer .footer-list li:hover {
+  color: #f97316;
+}
+
+.footer a:hover {
+  color: #f97316;
+}
+
+.footer .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* Style cho footer logo */
+.footer .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.footer .logo-box {
+  width: 40px;
+  height: 40px;
+  background-color: #f97316;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  flex-shrink: 0; /* Không cho logo co lại */
+}
+
+.footer .logo-box img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.footer .footer-logo h1 {
+  color: #ffffff;
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.footer .footer-logo p {
+  color: #9ca3af;
+  font-size: 13px;
+  margin: 2px 0 0 0;
+  line-height: 1.2;
+  max-width: 250px;
+}
+
+.footer .logo-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #f97316;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+/* Style cho subscribe form */
+.footer .subscribe {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+  gap: 12px;
+}
+
+.footer .subscribe input {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: #374151;
+  border: none;
+  color: #e5e7eb;
+  font-size: 14px;
+  outline: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer .subscribe input::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.footer .subscribe input:focus {
+  background-color: #4b5563;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3);
+}
+
+.footer .subscribe-button {
+  width: 100%;
+}
+
+.footer .subscribe button {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.footer .subscribe button:hover {
+  background: linear-gradient(135deg, #ea580c, #dc2626);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+.footer .subscribe button:active {
+  transform: translateY(0);
+}
+
+.footer .bottom-bar {
+  border-top: 1px solid #374151;
+  margin-top: 40px;
+  padding-top: 20px;
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.footer .social-icons {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.footer .social-icons a {
+  color: #e5e7eb;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.footer .social-icons a:hover {
+  color: #f97316;
+}
+
+/* Style cho tất cả icons trong footer */
+.footer svg {
+  color: #f97316;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Style cho icons trong footer-info */
+.footer .footer-info svg {
+  color: #f97316;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Style cho icons trong footer lists */
+.footer ul li svg {
+  color: #f97316;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Style cho icons trong social links */
+.footer .social svg {
+  color: #f97316;
+  margin-right: 6px;
+  font-size: 18px;
+}
+
+/* Style cho icons trong apps buttons */
+.footer .apps button svg {
+  color: #f97316;
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+/* Style cho social media icons với màu thương hiệu */
+.footer .social a svg {
+  color: #e5e7eb; /* Màu mặc định */
+  transition: color 0.3s ease;
+}
+
+/* Facebook - Blue */
+.footer .social a:nth-child(1) svg {
+  color: #1877f2;
+}
+
+.footer .social a:nth-child(1):hover svg {
+  color: #0c5db8;
+}
+
+/* Twitter - Blue */
+.footer .social a:nth-child(2) svg {
+  color: #1da1f2;
+}
+
+.footer .social a:nth-child(2):hover svg {
+  color: #0d8bd9;
+}
+
+/* Instagram - Gradient (approximated with pink) */
+.footer .social a:nth-child(3) svg {
+  color: #e4405f;
+}
+
+.footer .social a:nth-child(3):hover svg {
+  color: #c13584;
+}
+
+/* TikTok - Black with white border */
+.footer .social a:nth-child(4) svg {
+  color: #000000;
+  filter: drop-shadow(0 0 1px #ffffff) drop-shadow(0 0 1px #ffffff);
+}
+
+.footer .social a:nth-child(4):hover svg {
+  filter: drop-shadow(0 0 1px #ffffff) drop-shadow(0 0 1px #ffffff);
+}
+
+.footer .footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Style cho icon trong subscribe title */
+.footer h3 svg {
+  color: #f97316;
+  margin-right: 8px;
+}
+
+.footer .footer-description {
+  max-width: 280px;
+  margin-bottom: 16px;
+}
+
+/* Footer bottom section */
+.footer .footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 40px 0;
+  border-top: 1px solid #374151;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer .social {
+  text-align: center;
+  width: 100%;
+}
+
+.footer .social h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.footer .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer .social a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+  color: #e5e7eb;
+  background-color: rgba(55, 65, 81, 0.5);
+  min-width: 140px;
+  justify-content: center;
+}
+
+.footer .social a:hover {
+  transform: scale(1.1);
+}
+
+.footer .apps {
+  text-align: center;
+  width: 100%;
+}
+
+.footer .apps h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.footer .apps h5 {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.footer .apps-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer .apps button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.footer .apps button:hover {
+  background-color: #4b5563;
+  border-color: #f97316;
+  transform: translateY(-2px);
+}
+
+.footer .copyright {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 20px;
+  border-top: 1px solid #374151;
+  color: #6b7280;
+  font-size: 13px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Style cho app logos */
+.footer .apps button img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .footer .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer .subscribe {
+    gap: 12px;
+  }
+
+  .footer .subscribe input {
+    text-align: center;
+  }
+
+  .footer .subscribe button {
+    padding: 16px 24px;
+  }
+
+  .footer .footer-bottom {
+    gap: 30px;
+    padding: 30px 0;
+  }
+
+  .footer .social-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer .social a {
+    max-width: 200px;
+    width: 100%;
+  }
+
+  .footer .apps-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer .apps button {
+    max-width: 200px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .footer .footer-container {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 30px;
+  }
+}
