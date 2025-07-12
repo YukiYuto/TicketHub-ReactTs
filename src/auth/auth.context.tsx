@@ -328,6 +328,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     dispatch({
       type: IAuthContextActionTypes.SIGNOUT,
     });
+    toast.success("Sign Out Successful");
     navigate(PATH_PUBLIC.signIn);
   }, [navigate]);
 
