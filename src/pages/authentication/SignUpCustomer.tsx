@@ -48,7 +48,7 @@ const SignUpCustomer = () => {
     gender: Yup.string().required("Gender is required"),
   });
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
       email: "",
@@ -85,6 +85,7 @@ const SignUpCustomer = () => {
           label="Email"
           inputType="email"
           placeholder="Enter your email"
+          error={errors.email?.message}
         />
 
         <InputField
@@ -93,6 +94,7 @@ const SignUpCustomer = () => {
           label="Password"
           inputType="password"
           placeholder="Enter your password"
+          error={errors.password?.message}
         />
 
         <InputField
@@ -101,6 +103,7 @@ const SignUpCustomer = () => {
           label="Confirm Password"
           inputType="password"
           placeholder="Confirm your password"
+          error={errors.confirmPassword?.message}
         />
 
         <InputField
@@ -109,6 +112,7 @@ const SignUpCustomer = () => {
           label="Full Name"
           inputType="text"
           placeholder="Enter your full name"
+          error={errors.fullName?.message}
         />
 
         <InputField
@@ -117,6 +121,7 @@ const SignUpCustomer = () => {
           label="Phone Number"
           inputType="tel"
           placeholder="Enter your phone number"
+          error={errors.phoneNumber?.message}
         />
 
         <InputField
@@ -125,6 +130,7 @@ const SignUpCustomer = () => {
           label="Address"
           inputType="text"
           placeholder="Enter your address"
+          error={errors.address?.message}
         />
 
         <InputField
@@ -133,6 +139,7 @@ const SignUpCustomer = () => {
           label="Country"
           inputType="text"
           placeholder="Enter your country"
+          error={errors.country?.message}
         />
 
         <InputField
@@ -141,20 +148,27 @@ const SignUpCustomer = () => {
           label="CCCD"
           inputType="text"
           placeholder="Enter your CCCD (12 digits)"
+          error={errors.cccd?.message}
         />
         <InputField
           control={control}
           inputName="birthDate"
           label="Date of Birth"
           inputType="date"
+          error={errors.birthDate?.message}
         />
 
         <InputField
           control={control}
           inputName="gender"
           label="Gender"
-          inputType="text"
-          placeholder="Enter your gender"
+          inputType="select"
+          options={[
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+            { value: "other", label: "Other" },
+          ]}
+          error={errors.gender?.message}
         />
         <div className="signup-btn">
           <Button

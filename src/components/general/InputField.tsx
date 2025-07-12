@@ -9,6 +9,7 @@ interface IProps {
   error?: string;
   placeholder?: string;
   disabled?: boolean;
+  options?: { value: string; label: string }[];
 }
 
 const InputField = ({
@@ -19,6 +20,7 @@ const InputField = ({
   label,
   placeholder,
   disabled = false,
+  options = [],
 }: IProps) => {
   const renderTopRow = () => {
     if (error) {
@@ -43,16 +45,35 @@ const InputField = ({
       <Controller
         name={inputName}
         control={control}
-        render={({ field }) => (
-          <input
-            {...field}
-            autoComplete="off"
-            type={inputType}
-            placeholder={placeholder}
-            disabled={disabled}
-            className={getInputClassName()}
-          />
-        )}
+        render={({ field }) => {
+          if (inputType === "select") {
+            return (
+              <select
+                {...field}
+                disabled={disabled}
+                className={getInputClassName()}
+              >
+                <option value="">-- Select --</option>
+                {options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            );
+          }
+
+          return (
+            <input
+              {...field}
+              autoComplete="off"
+              type={inputType}
+              placeholder={placeholder}
+              disabled={disabled}
+              className={getInputClassName()}
+            />
+          );
+        }}
       />
     </div>
   );
