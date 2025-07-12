@@ -54,6 +54,11 @@ export interface ISignUpOrganizerDTO {
   organizationType: string;
 }
 
+export interface IVerifyEmailDTO {
+  userId: string;
+  token: string;
+}
+
 export interface IResponseDTO<T> {
   result: T;
   isSuccess: boolean;
@@ -141,6 +146,7 @@ export interface IAuthContext {
   signInByGoogle: (signInGoogle: ISignInByGoogleDTO) => Promise<void>;
   signOut: () => Promise<void>;
   signUpCustomer: (signUpField: ISignUpCustomerDTO) => Promise<void>;
+  verifyEmail: (verifyEmail: IVerifyEmailDTO) => Promise<void>;
 }
 
 export type IRoles = "MEMBER" | "STAFF" | "ADMIN" | "ORGANIZATION";

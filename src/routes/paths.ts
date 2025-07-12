@@ -3,7 +3,7 @@ export const PATH_PUBLIC = {
   signIn: "/user/sign-in",
   completeProfile: "/user/update-profile",
   forgotPassword: "/user/sign-in/forgot-password",
-  verifyEmail: "/user/sign-in/verify-email",
+  verifyEmail: "/verify-email",
   signUpCustomer: "/user/sign-up-customer",
   signUpOrganizer: "/user/sign-up-organizer",
   unauthorized: "/unauthorized",

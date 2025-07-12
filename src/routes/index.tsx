@@ -6,6 +6,7 @@ import { PATH_ADMIN, PATH_PUBLIC } from "@/routes/paths";
 import SignInPage from "@/pages/authentication/SignInPage";
 import SignUpCustomer from "@/pages/authentication/SignUpCustomer";
 import SignUpOrganizer from "@/pages/authentication/SignUpOrganizer";
+import VerifyEmailPage from "@/pages/authentication/VerifyEmailPage";
 import AdminLayout from "@/components/admin/layout";
 import AdminDashboard from "@/pages/admin/dashboard/AdminPage";
 import { RolesEnum } from "@/types/auth.types";
@@ -32,7 +33,7 @@ const GlobalRouter = () => {
           <Route path={PATH_ADMIN.dashboard} element={<AdminDashboard />} />
         </Route>
       </Route>
-
+      <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
       <Route path={PATH_PUBLIC.unauthorized} element={<HomePage />} />
     </Routes>
   );

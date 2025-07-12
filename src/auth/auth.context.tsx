@@ -17,6 +17,7 @@ import type {
   ISignInByGoogleDTO,
   ISignInByGoogleResponseDto,
   ISignUpCustomerDTO,
+  IVerifyEmailDTO,
   //ICompleteCustomerProfile,
   ISignUpResponseDTO,
 } from "@/types/auth.types";
@@ -32,6 +33,7 @@ import {
   SIGNIN_BY_GOOGLE_URL,
   SIGNUP_URL,
   SEND_EMAIL_VERIFICATION_URL,
+  VERIFY_EMAIL_URL,
 } from "@utils/apiUrl/authApiUrl";
 import { PATH_ADMIN, PATH_ORGANIZATION, PATH_PUBLIC } from "@routes/paths";
 import toast from "@/utils/toast";
@@ -279,7 +281,7 @@ const AuthContextProvider = ({ children }: IProps) => {
           const resendEmail = resendEmailResponse.data;
           if (resendEmail.isSuccess) {
             toast.success(
-              resendEmail.message || "Resend email verification successful!"
+              "Sign up successful! Please check your email to verify your account."
             );
             navigate(PATH_PUBLIC.signIn);
           } else {
@@ -291,6 +293,30 @@ const AuthContextProvider = ({ children }: IProps) => {
       } catch (error) {
         console.error("Sign Up Error:", error);
         toast.error("An error occurred during sign up!");
+      }
+    },
+    [navigate]
+  );
+
+  //verifyEmail
+  const verifyEmail = useCallback(
+    async (verifyEmailDTO: IVerifyEmailDTO) => {
+      try {
+        const response = await axiosInstance.post<IResponseDTO<string>>(
+          VERIFY_EMAIL_URL,
+          verifyEmailDTO
+        );
+        const verifyResponse: IResponseDTO<string> = response.data;
+
+        if (verifyResponse.isSuccess) {
+          toast.success("Email verified successfully! You can now sign in.");
+          navigate(PATH_PUBLIC.signIn);
+        } else {
+          toast.error(verifyResponse.message || "Email verification failed!");
+        }
+      } catch (error) {
+        console.error("Verify Email Error:", error);
+        toast.error("An error occurred during email verification!");
       }
     },
     [navigate]
@@ -315,6 +341,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     signInByEmailPassword: signInByEmailPassword,
     signInByGoogle: signInByGoogle,
     signUpCustomer: signUpCustomer,
+    verifyEmail: verifyEmail,
     signOut: signOut,
   };
 
