@@ -53,7 +53,7 @@ const Header = () => {
             Events
           </Link>
           <Link to={PATH_PUBLIC.notFound} className="nav-link">
-            My Tickets
+            Tickets
           </Link>
           <Link to={PATH_PUBLIC.notFound} className="nav-link">
             Contact
