@@ -56,7 +56,7 @@ const SignUpCustomer = () => {
       confirmPassword: "",
       fullName: "",
       phoneNumber: "",
-      birthDate: new Date(),
+      birthDate: undefined,
       address: "",
       country: "",
       gender: "",
@@ -65,28 +65,20 @@ const SignUpCustomer = () => {
   });
 
   const onSubmit = async (data: ISignUpCustomerDTO) => {
-    console.log("Form submitted with data:", data);
     try {
       setLoading(true);
       await signUpCustomer(data);
-      toast.success("Sign up successful!");
       reset();
-      navigate(PATH_PUBLIC.home);
     } catch (error) {
-      console.error("Sign up error:", error);
       toast.error("Sign up failed!");
+    } finally {
       setLoading(false);
     }
-  };
-
-  const onError = (errors: any) => {
-    console.log("Form validation errors:", errors);
-    toast.error("Please fix the form errors before submitting!");
   };
   return (
     <div className="signup-container">
       <h1>Sign Up Customer</h1>
-      <form className="signup-form" onSubmit={handleSubmit(onSubmit, onError)}>
+      <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
         <InputField
           control={control}
           inputName="email"
@@ -150,22 +142,6 @@ const SignUpCustomer = () => {
           inputType="text"
           placeholder="Enter your CCCD (12 digits)"
         />
-
-        <InputField
-          control={control}
-          inputName="birthDate"
-          label="Date of Birth"
-          inputType="date"
-        />
-
-        <InputField
-          control={control}
-          inputName="gender"
-          label="Gender"
-          inputType="text"
-          placeholder="Enter your gender"
-        />
-
         <div className="signup-btn">
           <Button
             variant="primary"
