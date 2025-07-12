@@ -142,6 +142,20 @@ const SignUpCustomer = () => {
           inputType="text"
           placeholder="Enter your CCCD (12 digits)"
         />
+        <InputField
+          control={control}
+          inputName="birthDate"
+          label="Date of Birth"
+          inputType="date"
+        />
+
+        <InputField
+          control={control}
+          inputName="gender"
+          label="Gender"
+          inputType="text"
+          placeholder="Enter your gender"
+        />
         <div className="signup-btn">
           <Button
             variant="primary"
