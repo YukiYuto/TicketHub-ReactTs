@@ -48,7 +48,12 @@ const SignUpCustomer = () => {
     gender: Yup.string().required("Gender is required"),
   });
 
-  const { control, handleSubmit, reset, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
       email: "",
