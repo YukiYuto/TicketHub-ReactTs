@@ -257,8 +257,8 @@ const AuthContextProvider = ({ children }: IProps) => {
     [navigate]
   );
 
-  //SignUpMember
-  const signUpMember = useCallback(
+  //SignUpCustomer
+  const signUpCustomer = useCallback(
     async (signUpCustomerDTO: ISignUpCustomerDTO) => {
       try {
         const response = await axiosInstance.post<ISignUpResponseDTO>(
@@ -314,7 +314,7 @@ const AuthContextProvider = ({ children }: IProps) => {
 
     signInByEmailPassword: signInByEmailPassword,
     signInByGoogle: signInByGoogle,
-    signUpMember: signUpMember,
+    signUpCustomer: signUpCustomer,
     signOut: signOut,
   };
 
