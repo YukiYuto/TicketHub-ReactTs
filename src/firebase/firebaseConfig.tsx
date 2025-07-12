@@ -10,12 +10,12 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDuoLHR8g-mslvn8GytH4aZiHIDxkS8Sio",
-  authDomain: "ticket-hub-b6cc7.firebaseapp.com",
-  projectId: "ticket-hub-b6cc7",
-  storageBucket: "ticket-hub-b6cc7.firebasestorage.app",
-  messagingSenderId: "39301436187",
-  appId: "1:39301436187:web:210c1aaa3feda14ddab9be",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
