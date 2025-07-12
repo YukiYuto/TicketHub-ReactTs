@@ -33,10 +33,11 @@ export interface ISignUpCustomerDTO {
   confirmPassword: string;
   fullName: string;
   phoneNumber: string;
-  dateOfBirth: string;
+  birthDate: Date;
   address: string;
   country: string;
-  idNumber: string;
+  gender: string;
+  cccd: string;
 }
 
 export interface ISignUpOrganizerDTO {
@@ -139,6 +140,7 @@ export interface IAuthContext {
   signInByEmailPassword: (signInField: ISignInDTO) => Promise<void>;
   signInByGoogle: (signInGoogle: ISignInByGoogleDTO) => Promise<void>;
   signOut: () => Promise<void>;
+  signUpCustomer: (signUpField: ISignUpCustomerDTO) => Promise<void>;
 }
 
 export type IRoles = "MEMBER" | "STAFF" | "ADMIN" | "ORGANIZATION";
