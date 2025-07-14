@@ -41,7 +41,9 @@ const SignUpCustomer = () => {
       .required("CCCD is required")
       .matches(/^\d{12}$/, "CCCD must be 12 digits"),
     fullName: Yup.string().required("Full Name is required"),
-    phoneNumber: Yup.string().required("Phone Number is required"),
+    phoneNumber: Yup.string()
+      .required("Phone Number is required")
+      .matches(/^[0-9]{9,11}$/, "Phone Number is not valid"),
     birthDate: Yup.date().required("Date of Birth is required"),
     address: Yup.string().required("Address is required"),
     country: Yup.string().required("Country is required"),
