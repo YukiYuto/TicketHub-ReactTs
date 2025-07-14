@@ -33,6 +33,11 @@ const Header = () => {
     navigate(PATH_PUBLIC.home);
   };
 
+  // Generate avatar source with fallback
+  const avatarSrc = user?.avatarUrl && user.avatarUrl !== 'undefined' && user.avatarUrl.trim() !== '' 
+    ? user.avatarUrl 
+    : "https://ui-avatars.com/api/?name=" + encodeURIComponent(user?.fullName || "User") + "&background=f97316&color=fff&size=40";
+
   return (
     <header className="header">
       <div className="header-container">
@@ -70,6 +75,15 @@ const Header = () => {
                 }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
+                <img
+                  src={avatarSrc}
+                  alt="Avatar"
+                  className="user-avatar"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user?.fullName || "User") + "&background=f97316&color=fff&size=40";
+                  }}
+                />
                 <span className="user-name">Hello, {user?.fullName}</span>
                 <svg
                   className={`dropdown-icon ${isDropdownOpen ? "rotated" : ""}`}
