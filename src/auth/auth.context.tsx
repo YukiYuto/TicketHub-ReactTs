@@ -18,8 +18,8 @@ import type {
   ISignInByGoogleResponseDto,
   ISignUpCustomerDTO,
   IVerifyEmailDTO,
-  //ICompleteCustomerProfile,
   ISignUpResponseDTO,
+  ICompleteCustomerProfile,
 } from "@/types/auth.types";
 import { IAuthContextActionTypes, RolesEnum } from "@/types/auth.types";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +34,7 @@ import {
   SIGNUP_URL,
   SEND_EMAIL_VERIFICATION_URL,
   VERIFY_EMAIL_URL,
+  COMPLETE_PROFILE_URL,
 } from "@utils/apiUrl/authApiUrl";
 import { PATH_ADMIN, PATH_ORGANIZATION, PATH_PUBLIC } from "@routes/paths";
 import toast from "@/utils/toast";
@@ -322,6 +323,50 @@ const AuthContextProvider = ({ children }: IProps) => {
     [navigate]
   );
 
+  //Complete Profile
+  const completeProfile = useCallback(
+    async (completeProfileData: ICompleteCustomerProfile) => {
+      try {
+        console.log("Sending complete profile request:", {
+          url: COMPLETE_PROFILE_URL,
+          data: completeProfileData,
+          method: "PUT",
+        });
+
+        const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
+          COMPLETE_PROFILE_URL,
+          completeProfileData
+        );
+
+        console.log("Complete profile response:", response.data);
+
+        const completeUserDto = response.data;
+        if (!completeUserDto.isSuccess) {
+          toast.error("Profile completed failed!");
+          return;
+        }
+
+        const { accessToken, refreshToken } = completeUserDto.result;
+        setJwtTokenSession(accessToken, refreshToken);
+        const userInfoResponse = await axiosInstance.get<
+          IResponseDTO<IUserInfo>
+        >(GET_USER_INFO_URL);
+        const userInfo = userInfoResponse.data.result;
+
+        dispatch({
+          type: IAuthContextActionTypes.COMPLETE_PROFILE,
+          payload: userInfo,
+        });
+        toast.success("Profile completed successfully!");
+        navigate(PATH_PUBLIC.home);
+      } catch (error) {
+        console.error("Complete Profile Error:", error);
+        toast.error("An error occurred while completing the profile!");
+      }
+    },
+    [navigate]
+  );
+
   //signOut
   const signOut = useCallback(async () => {
     setJwtTokenSession(null, null);
@@ -344,6 +389,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     signUpCustomer: signUpCustomer,
     verifyEmail: verifyEmail,
     signOut: signOut,
+    completeCustomerProfile: completeProfile,
   };
 
   return (

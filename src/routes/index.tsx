@@ -11,6 +11,7 @@ import AdminLayout from "@/components/admin/layout";
 import AdminDashboard from "@/pages/admin/dashboard/AdminPage";
 import { RolesEnum } from "@/types/auth.types";
 import AuthGuard from "@/auth/authGuard";
+import CustomerCompleteProfile from "@/pages/authentication/CustomerCompleteProfile";
 
 const GlobalRouter = () => {
   return (
@@ -20,6 +21,10 @@ const GlobalRouter = () => {
         <Route index element={<HomePage />} />
         <Route path={PATH_PUBLIC.signIn} element={<SignInPage />} />
         <Route path={PATH_PUBLIC.signUpCustomer} element={<SignUpCustomer />} />
+        <Route
+          path={PATH_PUBLIC.completeProfile}
+          element={<CustomerCompleteProfile />}
+        />
         <Route
           path={PATH_PUBLIC.signUpOrganizer}
           element={<SignUpOrganizer />}

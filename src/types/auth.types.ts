@@ -54,6 +54,16 @@ export interface ISignUpOrganizerDTO {
   organizationType: string;
 }
 
+export interface IUpdateCustomerProfileDTO {
+  fullName: string;
+  phoneNumber: string;
+  birthDate: Date;
+  address: string;
+  country: string;
+  cccd: string;
+  gender: string;
+}
+
 export interface IVerifyEmailDTO {
   userId: string;
   token: string;
@@ -87,25 +97,28 @@ export interface IUserInfo {
   id: string;
   userName: string;
   fullName: string;
-  //gender: string;
+  gender: string;
   birthDate: string;
   email: string;
   country: string;
   phoneNumber: string;
   address: string;
   updateTime: Date;
+  avatarUrl?: string;
   //isUploadDegree: boolean;
   //isAccepted: boolean;
   roles: string[];
 }
 
 export interface ICompleteCustomerProfile {
-  fullName: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  address: string;
+  birthDate: Date;
+  avatarUrl?: string;
   country: string;
-  idNumber: string;
+  address: string;
+  phoneNumber: string;
+  fullName: string;
+  cccd: string;
+  gender: string;
 }
 
 export type IAuthContextActionTypes =
@@ -147,6 +160,8 @@ export interface IAuthContext {
   signOut: () => Promise<void>;
   signUpCustomer: (signUpField: ISignUpCustomerDTO) => Promise<void>;
   verifyEmail: (verifyEmail: IVerifyEmailDTO) => Promise<void>;
+  completeCustomerProfile: (profile: ICompleteCustomerProfile) => Promise<void>;
+  // updateCustomerProfile: (profile: IUpdateCustomerProfileDTO) => Promise<void>;
 }
 
 export type IRoles = "MEMBER" | "STAFF" | "ADMIN" | "ORGANIZATION";
