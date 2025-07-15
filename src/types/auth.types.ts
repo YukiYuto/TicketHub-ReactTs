@@ -138,6 +138,7 @@ export const IAuthContextActionTypes = {
 export interface IAuthContextAction {
   type: IAuthContextActionTypes;
   payload?: IUserInfo;
+  isFullInfo?: boolean;
 }
 
 export interface IAuthContextState {
@@ -152,14 +153,15 @@ export interface IAuthContext {
   isAuthLoading: boolean;
   isFullInfo: boolean;
   user?: IUserInfo;
-  state: IAuthContextState;
 
-  signInByEmailPassword: (signInField: ISignInDTO) => Promise<void>;
-  signInByGoogle: (signInGoogle: ISignInByGoogleDTO) => Promise<void>;
-  signOut: () => Promise<void>;
+  signInByEmailPassword: (signInField: ISignInDTO) => Promise<boolean>;
+  signInByGoogle: (signInGoogle: ISignInByGoogleDTO) => Promise<boolean>;
+  signOut: () => Promise<boolean>;
   signUpCustomer: (signUpField: ISignUpCustomerDTO) => Promise<void>;
   verifyEmail: (verifyEmail: IVerifyEmailDTO) => Promise<void>;
-  completeCustomerProfile: (profile: ICompleteCustomerProfile) => Promise<void>;
+  completeCustomerProfile: (
+    profile: ICompleteCustomerProfile
+  ) => Promise<boolean>;
   // updateCustomerProfile: (profile: IUpdateCustomerProfileDTO) => Promise<void>;
 }
 

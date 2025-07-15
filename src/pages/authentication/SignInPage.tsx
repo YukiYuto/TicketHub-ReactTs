@@ -4,14 +4,16 @@ import useAuth from "@/hooks/useAuth.hook";
 import type { ISignInDTO, ISignInByGoogleDTO } from "@/types/auth.types";
 import auth, { googleProvider } from "@firebase-config/firebaseConfig";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import AuthNavigationHandler from "@/components/auth/AuthNavigationHandler";
 
 const SignInPage = () => {
-  const { signInByEmailPassword, signInByGoogle } = useAuth();
+  const { signInByEmailPassword, signInByGoogle, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState<ISignInDTO>({
     email: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +29,10 @@ const SignInPage = () => {
 
     setIsSubmitting(true);
     try {
-      await signInByEmailPassword(formData);
+      const success = await signInByEmailPassword(formData);
+      if (success) {
+        setShouldNavigate(true);
+      }
     } catch (error) {
       console.error("Sign in error:", error);
     } finally {
@@ -54,7 +59,10 @@ const SignInPage = () => {
         token: oauthAccessToken,
       };
 
-      await signInByGoogle(signInByGoogleDto);
+      const success = await signInByGoogle(signInByGoogleDto);
+      if (success) {
+        setShouldNavigate(true);
+      }
     } catch (error: any) {
       console.error("Google sign-in error:", error);
 
@@ -136,6 +144,9 @@ const SignInPage = () => {
           </button>
         </div>
       </form>
+
+      {/* Navigation handler - chỉ render khi cần navigate và user đã authenticated */}
+      {shouldNavigate && isAuthenticated && <AuthNavigationHandler />}
     </div>
   );
 };

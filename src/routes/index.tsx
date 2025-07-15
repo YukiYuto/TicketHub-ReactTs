@@ -1,6 +1,7 @@
 import Layout from "@/components/user/layout";
 import HomePage from "@/pages/home/HomePage";
 import NotFoundPage from "@/pages/public/NotFoundPage";
+import UnauthorizedPage from "@/pages/public/UnauthorizedPage";
 import { Route, Routes } from "react-router-dom";
 import { PATH_ADMIN, PATH_PUBLIC, PATH_USER } from "@/routes/paths";
 import SignInPage from "@/pages/authentication/SignInPage";
@@ -45,7 +46,7 @@ const GlobalRouter = () => {
         </Route>
       </Route>
       <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
-      <Route path={PATH_PUBLIC.unauthorized} element={<HomePage />} />
+      <Route path={PATH_PUBLIC.unauthorized} element={<UnauthorizedPage />} />
     </Routes>
   );
 };

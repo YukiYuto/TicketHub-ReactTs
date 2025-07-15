@@ -21,7 +21,7 @@ import type {
   ISignUpResponseDTO,
   ICompleteCustomerProfile,
 } from "@/types/auth.types";
-import { IAuthContextActionTypes, RolesEnum } from "@/types/auth.types";
+import { IAuthContextActionTypes } from "@/types/auth.types";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { getJwtTokenSession, setJwtTokenSession } from "@/auth/auth.utilities";
@@ -36,12 +36,7 @@ import {
   VERIFY_EMAIL_URL,
   COMPLETE_PROFILE_URL,
 } from "@utils/apiUrl/authApiUrl";
-import {
-  PATH_ADMIN,
-  PATH_ORGANIZATION,
-  PATH_PUBLIC,
-  PATH_USER,
-} from "@routes/paths";
+import { PATH_PUBLIC } from "@routes/paths";
 import toast from "@/utils/toast";
 
 // Initial state object for useReducer hook
@@ -60,7 +55,7 @@ const authReducer = (state: IAuthContextState, action: IAuthContextAction) => {
       return {
         ...state, //3 chấm là sao chép tất cả các thuộc tính của state
         isAuthenticated: true,
-        isFullInfo: true,
+        isFullInfo: action.isFullInfo ?? true, // Use from action or default to true
         isAuthLoading: false,
         user: action.payload,
       };
@@ -98,7 +93,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     if (!token) return false;
 
     const decodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000; // current time in seconds
+    const currentTime = Date.now() / 1000;
 
     if (decodedToken.exp == null) {
       return false;
@@ -177,7 +172,6 @@ const AuthContextProvider = ({ children }: IProps) => {
                 IResponseDTO<string>
               >(SEND_EMAIL_VERIFICATION_URL, { email: signInDTO.email });
               if (resendEmail.data.isSuccess) {
-                //toast.success("Resend email successfully!");
                 toast.success(resendEmail.data.message);
               } else {
                 toast.error(resendEmail.data.message || "Resend email failed!");
@@ -186,7 +180,7 @@ const AuthContextProvider = ({ children }: IProps) => {
               toast.error("An error occurred while resending email!");
             }
           }
-          return;
+          return false;
         }
 
         const { accessToken, refreshToken } = signInResponse.result;
@@ -202,18 +196,10 @@ const AuthContextProvider = ({ children }: IProps) => {
           payload: userInfo,
         });
         toast.success("Sign In Successful");
-        //kiểm tra xem user có role gì và chuyển hướng đến trang tương ứng
-        const userRole = userInfo.roles[0];
-        if (userRole === RolesEnum.MEMBER) {
-          navigate(PATH_PUBLIC.home);
-        } else if (userRole === RolesEnum.ORGANIZATION) {
-          navigate(PATH_ORGANIZATION.home);
-        } else {
-          navigate(PATH_ADMIN.dashboard);
-        }
+        return true;
       } catch (error) {
-        console.error("Sign In Error:", error);
         toast.error("An error occurred during sign in!");
+        return false;
       }
     },
     [navigate]
@@ -230,7 +216,7 @@ const AuthContextProvider = ({ children }: IProps) => {
         const signInResponse: ISignInByGoogleResponseDto = response.data;
         if (!signInResponse.isSuccess) {
           toast.error(signInResponse.message || "Sign in by Google failed!");
-          return;
+          return false;
         }
 
         const { accessToken, refreshToken, isProfileComplete } =
@@ -244,22 +230,16 @@ const AuthContextProvider = ({ children }: IProps) => {
         >(GET_USER_INFO_URL);
         const userInfo = userInfoResponse.data.result;
 
-        if (userInfo.roles.includes(RolesEnum.MEMBER) && !isProfileComplete) {
-          dispatch({
-            type: IAuthContextActionTypes.SIGNINBYGOOGLE,
-            payload: userInfo,
-          });
-          navigate(PATH_USER.completeProfile);
-        } else {
-          dispatch({
-            type: IAuthContextActionTypes.SIGNINBYGOOGLE,
-            payload: userInfo,
-          });
-          navigate(PATH_PUBLIC.home);
-        }
+        dispatch({
+          type: IAuthContextActionTypes.SIGNINBYGOOGLE,
+          payload: userInfo,
+          isFullInfo: isProfileComplete,
+        });
+        return true;
       } catch (error) {
         console.error("Sign In by Google Error:", error);
         toast.error("An error occurred during sign in by Google!");
+        return false;
       }
     },
     [navigate]
@@ -292,7 +272,7 @@ const AuthContextProvider = ({ children }: IProps) => {
             navigate(PATH_PUBLIC.signIn);
           } else {
             toast.error(
-              resendEmail.message || "Resend email verification failed!"
+              resendEmail.message || "Send email verification failed!"
             );
           }
         }
@@ -321,7 +301,6 @@ const AuthContextProvider = ({ children }: IProps) => {
           toast.error(verifyResponse.message || "Email verification failed!");
         }
       } catch (error) {
-        console.error("Verify Email Error:", error);
         toast.error("An error occurred during email verification!");
       }
     },
@@ -332,23 +311,15 @@ const AuthContextProvider = ({ children }: IProps) => {
   const completeProfile = useCallback(
     async (completeProfileData: ICompleteCustomerProfile) => {
       try {
-        console.log("Sending complete profile request:", {
-          url: COMPLETE_PROFILE_URL,
-          data: completeProfileData,
-          method: "PUT",
-        });
-
         const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
           COMPLETE_PROFILE_URL,
           completeProfileData
         );
 
-        console.log("Complete profile response:", response.data);
-
         const completeUserDto = response.data;
         if (!completeUserDto.isSuccess) {
           toast.error("Profile completed failed!");
-          return;
+          return false;
         }
 
         const { accessToken, refreshToken } = completeUserDto.result;
@@ -361,12 +332,14 @@ const AuthContextProvider = ({ children }: IProps) => {
         dispatch({
           type: IAuthContextActionTypes.COMPLETE_PROFILE,
           payload: userInfo,
+          isFullInfo: true,
         });
+
         toast.success("Profile completed successfully!");
-        navigate(PATH_PUBLIC.home);
+        return true;
       } catch (error) {
-        console.error("Complete Profile Error:", error);
         toast.error("An error occurred while completing the profile!");
+        return false;
       }
     },
     [navigate]
@@ -374,20 +347,24 @@ const AuthContextProvider = ({ children }: IProps) => {
 
   //signOut
   const signOut = useCallback(async () => {
-    setJwtTokenSession(null, null);
-    dispatch({
-      type: IAuthContextActionTypes.SIGNOUT,
-    });
-    toast.success("Sign Out Successful");
-    navigate(PATH_PUBLIC.signIn);
-  }, [navigate]);
+    try {
+      setJwtTokenSession(null, null);
+      dispatch({
+        type: IAuthContextActionTypes.SIGNOUT,
+      });
+      toast.success("Sign Out Successful");
+      return true;
+    } catch (error) {
+      toast.error("An error occurred during sign out!");
+      return false;
+    }
+  }, []);
 
   const valuesObject = {
     isAuthenticated: state.isAuthenticated,
     isAuthLoading: state.isAuthLoading,
     isFullInfo: state.isFullInfo,
     user: state.user,
-    state: state,
 
     signInByEmailPassword: signInByEmailPassword,
     signInByGoogle: signInByGoogle,
