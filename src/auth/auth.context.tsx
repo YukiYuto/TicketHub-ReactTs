@@ -76,7 +76,8 @@ const authReducer = (state: IAuthContextState, action: IAuthContextAction) => {
     case IAuthContextActionTypes.SET_LOADING:
       return {
         ...state,
-        isAuthLoading: typeof action.payload === 'boolean' ? action.payload : false,
+        isAuthLoading:
+          typeof action.payload === "boolean" ? action.payload : false,
       };
     // default
     default:
@@ -129,17 +130,17 @@ const AuthContextProvider = ({ children }: IProps) => {
         if (!jwtToken.isSuccess) {
           throw new Error(jwtToken.message);
         }
-        
+
         // Check if result is a string token or an object with accessToken/refreshToken
         let newAccessToken: string;
         let newRefreshToken: string;
-        
-        if (typeof jwtToken.result === 'string') {
+
+        if (typeof jwtToken.result === "string") {
           // If result is a string, it's the new access token
           // Keep the existing refresh token since it's still valid
           newAccessToken = jwtToken.result;
           newRefreshToken = refreshToken || "";
-        } else if (jwtToken.result && typeof jwtToken.result === 'object') {
+        } else if (jwtToken.result && typeof jwtToken.result === "object") {
           // If result is an object, both tokens are being refreshed
           newAccessToken = (jwtToken.result as any).accessToken;
           newRefreshToken = (jwtToken.result as any).refreshToken;
@@ -158,7 +159,7 @@ const AuthContextProvider = ({ children }: IProps) => {
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${validToken}`;
-      
+
       const userInfoResponse = await axiosInstance.get<IResponseDTO<IUserInfo>>(
         GET_USER_INFO_URL
       );

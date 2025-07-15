@@ -27,26 +27,39 @@ const GlobalRouter = () => {
           path={PATH_PUBLIC.signUpOrganizer}
           element={<SignUpOrganizer />}
         />
+        <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
+        <Route path={PATH_PUBLIC.unauthorized} element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 
-      {/* Customer Routes */}
-      <Route path={PATH_PUBLIC.home} element={<HomePage />} />
-      <Route
-        path={PATH_USER.completeProfile}
-        element={<CustomerCompleteProfile />}
-      />
-      <Route path={PATH_USER.updateProfile} element={<CustomerProfilePage />} />
-      <Route path={PATH_USER.tickets} element={<NotFoundPage />} />
+      {/* Member/Customer Protected Routes */}
+      <Route element={<AuthGuard roles={[RolesEnum.MEMBER]} />}>
+        <Route
+          path={PATH_USER.completeProfile}
+          element={<CustomerCompleteProfile />}
+        />
+        <Route
+          path={PATH_USER.updateProfile}
+          element={<CustomerProfilePage />}
+        />
+        <Route path={PATH_USER.tickets} element={<NotFoundPage />} />
+      </Route>
 
-      {/* Admin Routes */}
+      {/* Admin Protected Routes */}
       <Route element={<AuthGuard roles={[RolesEnum.ADMIN]} />}>
         <Route element={<AdminLayout />}>
+          {/* Redirect /admin to /admin/dashboard */}
           <Route path={PATH_ADMIN.dashboard} element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<NotFoundPage />} />
+          <Route path="/admin/events" element={<NotFoundPage />} />
+          <Route path="/admin/tickets" element={<NotFoundPage />} />
+          <Route path="/admin/transactions" element={<NotFoundPage />} />
+          <Route path="/admin/analytics" element={<NotFoundPage />} />
+          <Route path="/admin/settings" element={<NotFoundPage />} />
+          <Route path="/admin/updates" element={<NotFoundPage />} />
+          <Route path="/admin/products" element={<NotFoundPage />} />
         </Route>
       </Route>
-      <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
-      <Route path={PATH_PUBLIC.unauthorized} element={<UnauthorizedPage />} />
     </Routes>
   );
 };

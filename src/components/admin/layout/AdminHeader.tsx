@@ -1,4 +1,3 @@
-import TicketHubLogo from "@assets/Logo/logo-removebg.svg";
 import { BellIcon } from "@heroicons/react/24/outline";
 import useAuth from "@/hooks/useAuth.hook";
 import { useNavigate } from "react-router-dom";
@@ -48,13 +47,9 @@ const AdminHeader = () => {
     <nav className="admin-header">
       <div className="admin-header-container">
         <div className="admin-header-content">
-          <div className="admin-header-brand">
-            <img
-              className="admin-header-logo"
-              src={TicketHubLogo}
-              alt="Ticket Hub Logo"
-            />
-          </div>
+          {/* <div className="admin-header-brand">
+
+          </div> */}
 
           {isAuthenticated ? (
             <div className="admin-header-user-section">
