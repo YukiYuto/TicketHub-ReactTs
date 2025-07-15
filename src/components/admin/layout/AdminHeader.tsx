@@ -2,13 +2,12 @@ import TicketHubLogo from "@assets/Logo/logo-removebg.svg";
 import { BellIcon } from "@heroicons/react/24/outline";
 import useAuth from "@/hooks/useAuth.hook";
 import { useNavigate } from "react-router-dom";
-import { PATH_ADMIN } from "@/routes/paths";
+import { PATH_ADMIN, PATH_PUBLIC } from "@/routes/paths";
 import { useState, useEffect, useRef } from "react";
 import "@styles/admin/AdminHeader.css";
 
 const AdminHeader = () => {
-  const { state, signOut } = useAuth();
-  const { isAuthenticated, user } = state;
+  const { isAuthenticated, user, signOut } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -32,7 +31,7 @@ const AdminHeader = () => {
   const handleSignOut = () => {
     signOut();
     setIsDropdownOpen(false);
-    navigate(PATH_ADMIN.dashboard);
+    navigate(PATH_PUBLIC.home);
   };
 
   // Generate avatar source with fallback
