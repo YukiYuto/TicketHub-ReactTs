@@ -10,19 +10,32 @@ interface IProps {
 const AuthGuard = ({ roles }: IProps) => {
   const { isAuthenticated, user, isAuthLoading } = useAuth();
 
-  // Check access to decide which component will be rendered.
-  const hasAccess =
-    isAuthenticated && user?.roles?.find((x: string) => roles.includes(x));
-
   if (isAuthLoading) {
     return <Spinner></Spinner>;
   }
 
-  return hasAccess ? (
-    <Outlet></Outlet>
-  ) : (
-    <Navigate to={PATH_PUBLIC.unauthorized}></Navigate>
+  // If not authenticated, redirect to sign in
+  if (!isAuthenticated) {
+    return <Navigate to={PATH_PUBLIC.signIn} replace />;
+  }
+
+  // If authenticated but no user data, redirect to sign in
+  if (!user) {
+    return <Navigate to={PATH_PUBLIC.signIn} replace />;
+  }
+
+  // Check if user has required role
+  const hasRequiredRole = user?.roles?.some((userRole: string) => 
+    roles.includes(userRole)
   );
+
+  // If user doesn't have required role, redirect to unauthorized
+  if (!hasRequiredRole) {
+    return <Navigate to={PATH_PUBLIC.unauthorized} replace />;
+  }
+
+  // User is authenticated and has required role
+  return <Outlet />;
 };
 
 export default AuthGuard;

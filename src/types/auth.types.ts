@@ -125,7 +125,8 @@ export type IAuthContextActionTypes =
   | "SIGNIN"
   | "SIGNINBYGOOGLE"
   | "SIGNOUT"
-  | "COMPLETE_PROFILE";
+  | "COMPLETE_PROFILE"
+  | "SET_LOADING";
 
 export const IAuthContextActionTypes = {
   INITIAL: "INITIAL" as "INITIAL",
@@ -133,11 +134,12 @@ export const IAuthContextActionTypes = {
   SIGNINBYGOOGLE: "SIGNINBYGOOGLE" as "SIGNINBYGOOGLE",
   SIGNOUT: "SIGNOUT" as "SIGNOUT",
   COMPLETE_PROFILE: "COMPLETE_PROFILE" as "COMPLETE_PROFILE",
+  SET_LOADING: "SET_LOADING" as "SET_LOADING",
 };
 
 export interface IAuthContextAction {
   type: IAuthContextActionTypes;
-  payload?: IUserInfo;
+  payload?: IUserInfo | boolean;
   isFullInfo?: boolean;
 }
 
