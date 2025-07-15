@@ -55,11 +55,23 @@ export interface ISignUpOrganizerDTO {
 }
 
 export interface IUpdateCustomerProfileDTO {
-  fullName: string;
-  phoneNumber: string;
+  fullName?: string;
+  phoneNumber?: string;
+  birthDate?: Date;
+  address?: string;
+  country?: string;
+  cccd?: string;
+  gender?: string;
+  avatarUrl?: string;
+}
+
+export interface ICompleteCustomerProfile {
   birthDate: Date;
-  address: string;
+  avatarUrl?: string;
   country: string;
+  address: string;
+  phoneNumber: string;
+  fullName: string;
   cccd: string;
   gender: string;
 }
@@ -105,20 +117,7 @@ export interface IUserInfo {
   address: string;
   updateTime: Date;
   avatarUrl?: string;
-  //isUploadDegree: boolean;
-  //isAccepted: boolean;
   roles: string[];
-}
-
-export interface ICompleteCustomerProfile {
-  birthDate: Date;
-  avatarUrl?: string;
-  country: string;
-  address: string;
-  phoneNumber: string;
-  fullName: string;
-  cccd: string;
-  gender: string;
 }
 
 export type IAuthContextActionTypes =
