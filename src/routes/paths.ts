@@ -1,8 +1,6 @@
 export const PATH_PUBLIC = {
   home: "/",
   signIn: "/user/sign-in",
-  updateProfile: "/user/update-profile",
-  completeProfile: "/user/complete-profile",
   forgotPassword: "/user/sign-in/forgot-password",
   verifyEmail: "/verify-email",
   signUpCustomer: "/user/sign-up-customer",
@@ -17,4 +15,11 @@ export const PATH_ADMIN = {
 };
 export const PATH_ORGANIZATION = {
   home: "/organization",
+};
+
+export const PATH_USER = {
+  updateProfile: "/user/update-profile",
+  tickets: "/user/tickets",
+  settings: "/user/settings",
+  completeProfile: "/user/complete-profile",
 };
