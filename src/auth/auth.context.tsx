@@ -36,7 +36,12 @@ import {
   VERIFY_EMAIL_URL,
   COMPLETE_PROFILE_URL,
 } from "@utils/apiUrl/authApiUrl";
-import { PATH_ADMIN, PATH_ORGANIZATION, PATH_PUBLIC } from "@routes/paths";
+import {
+  PATH_ADMIN,
+  PATH_ORGANIZATION,
+  PATH_PUBLIC,
+  PATH_USER,
+} from "@routes/paths";
 import toast from "@/utils/toast";
 
 // Initial state object for useReducer hook
@@ -244,7 +249,7 @@ const AuthContextProvider = ({ children }: IProps) => {
             type: IAuthContextActionTypes.SIGNINBYGOOGLE,
             payload: userInfo,
           });
-          navigate(PATH_PUBLIC.completeProfile);
+          navigate(PATH_USER.completeProfile);
         } else {
           dispatch({
             type: IAuthContextActionTypes.SIGNINBYGOOGLE,

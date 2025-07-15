@@ -1,7 +1,7 @@
 import "@styles/page/Header.css";
 import TicketHubLogo from "@assets/Logo/logo-removebg.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { PATH_PUBLIC } from "@/routes/paths";
+import { PATH_PUBLIC, PATH_USER } from "@/routes/paths";
 import useAuth from "@/hooks/useAuth.hook";
 import { useState, useEffect, useRef } from "react";
 
@@ -34,9 +34,14 @@ const Header = () => {
   };
 
   // Generate avatar source with fallback
-  const avatarSrc = user?.avatarUrl && user.avatarUrl !== 'undefined' && user.avatarUrl.trim() !== '' 
-    ? user.avatarUrl 
-    : "https://ui-avatars.com/api/?name=" + encodeURIComponent(user?.fullName || "User") + "&background=f97316&color=fff&size=40";
+  const avatarSrc =
+    user?.avatarUrl &&
+    user.avatarUrl !== "undefined" &&
+    user.avatarUrl.trim() !== ""
+      ? user.avatarUrl
+      : "https://ui-avatars.com/api/?name=" +
+        encodeURIComponent(user?.fullName || "User") +
+        "&background=f97316&color=fff&size=40";
 
   return (
     <header className="header">
@@ -81,7 +86,10 @@ const Header = () => {
                   className="user-avatar"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user?.fullName || "User") + "&background=f97316&color=fff&size=40";
+                    target.src =
+                      "https://ui-avatars.com/api/?name=" +
+                      encodeURIComponent(user?.fullName || "User") +
+                      "&background=f97316&color=fff&size=40";
                   }}
                 />
                 <span className="user-name">Hello, {user?.fullName}</span>
@@ -103,7 +111,7 @@ const Header = () => {
               {isDropdownOpen && (
                 <div className="user-dropdown-menu">
                   <Link
-                    to={PATH_PUBLIC.notFound}
+                    to={PATH_USER.updateProfile}
                     className="dropdown-item"
                     onClick={() => setIsDropdownOpen(false)}
                   >
