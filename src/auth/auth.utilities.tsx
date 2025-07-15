@@ -8,7 +8,6 @@ export const setJwtTokenSession = (
   if (accessToken && refreshToken) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-
     axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem("accessToken");
@@ -19,9 +18,8 @@ export const setJwtTokenSession = (
 
 // Function to retrieve the access token from local storage
 export const getJwtTokenSession = () => {
-  const result = {
+  return {
     accessToken: localStorage.getItem("accessToken"),
     refreshToken: localStorage.getItem("refreshToken"),
   };
-  return result;
 };

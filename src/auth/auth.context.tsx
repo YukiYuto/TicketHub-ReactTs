@@ -57,19 +57,26 @@ const authReducer = (state: IAuthContextState, action: IAuthContextAction) => {
         isAuthenticated: true,
         isFullInfo: action.isFullInfo ?? true, // Use from action or default to true
         isAuthLoading: false,
-        user: action.payload,
+        user: action.payload as IUserInfo,
       };
     // Handle the SIGNOUT action
     case IAuthContextActionTypes.SIGNOUT:
       return {
         ...initialAuthState, // Reset to initial state
+        isAuthLoading: false, // Set loading to false after signout
       };
     // Handle the COMPLETE_PROFILE action
     case IAuthContextActionTypes.COMPLETE_PROFILE:
       return {
         ...state,
         isFullInfo: true,
-        user: action.payload,
+        user: action.payload as IUserInfo,
+      };
+    // Handle the SET_LOADING action
+    case IAuthContextActionTypes.SET_LOADING:
+      return {
+        ...state,
+        isAuthLoading: typeof action.payload === 'boolean' ? action.payload : false,
       };
     // default
     default:
@@ -106,6 +113,8 @@ const AuthContextProvider = ({ children }: IProps) => {
     try {
       const { accessToken, refreshToken } = getJwtTokenSession();
 
+      let validToken = accessToken;
+
       if (isTokenValid(accessToken) && isTokenValid(refreshToken)) {
         const token = {
           accessToken,
@@ -120,17 +129,36 @@ const AuthContextProvider = ({ children }: IProps) => {
         if (!jwtToken.isSuccess) {
           throw new Error(jwtToken.message);
         }
-
-        const newAccessToken = jwtToken.result.accessToken;
-        const newRefreshToken = jwtToken.result.refreshToken;
+        
+        // Check if result is a string token or an object with accessToken/refreshToken
+        let newAccessToken: string;
+        let newRefreshToken: string;
+        
+        if (typeof jwtToken.result === 'string') {
+          // If result is a string, it's the new access token
+          // Keep the existing refresh token since it's still valid
+          newAccessToken = jwtToken.result;
+          newRefreshToken = refreshToken || "";
+        } else if (jwtToken.result && typeof jwtToken.result === 'object') {
+          // If result is an object, both tokens are being refreshed
+          newAccessToken = (jwtToken.result as any).accessToken;
+          newRefreshToken = (jwtToken.result as any).refreshToken;
+        } else {
+          throw new Error("Unexpected refresh response format");
+        }
 
         setJwtTokenSession(newAccessToken, newRefreshToken);
+        validToken = newAccessToken;
       }
 
-      const { accessToken: validToken } = getJwtTokenSession();
+      if (!validToken) {
+        throw new Error("No valid token found");
+      }
+
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${validToken}`;
+      
       const userInfoResponse = await axiosInstance.get<IResponseDTO<IUserInfo>>(
         GET_USER_INFO_URL
       );
@@ -139,19 +167,20 @@ const AuthContextProvider = ({ children }: IProps) => {
       dispatch({
         type: IAuthContextActionTypes.SIGNIN,
         payload: userInfo,
+        isFullInfo: true,
       });
     } catch (error) {
       setJwtTokenSession(null, null);
       dispatch({ type: IAuthContextActionTypes.SIGNOUT });
+    } finally {
+      // Always set loading to false when initialization is complete
+      dispatch({ type: IAuthContextActionTypes.SET_LOADING, payload: false });
     }
   }, []);
 
   //useEffect
   useEffect(() => {
-    console.log("AuthContext Initialization start");
-    initializeAuthContext()
-      .then(() => console.log("AuthContext Initialization was successfully"))
-      .catch((error: Error) => console.log(error));
+    initializeAuthContext();
   }, []);
 
   //signInByEmailPassword
