@@ -50,8 +50,8 @@
 }
 
 .signin-form input:focus {
-  border: 1px solid #3b82f6;
-  box-shadow: 0 0 0 2px #3b82f6;
+  border: 1px solid #f97316;
+  box-shadow: 0 0 0 2px #f97316;
   outline: none;
 }
 

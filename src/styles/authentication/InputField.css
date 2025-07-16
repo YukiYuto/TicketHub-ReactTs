@@ -39,8 +39,8 @@
 }
 
 .input-field-base:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
 .input-field-base:disabled {
