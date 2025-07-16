@@ -18,6 +18,7 @@ export const PATH_ORGANIZATION = {
 };
 
 export const PATH_USER = {
+  profile: "/user/profile",
   updateProfile: "/user/update-profile",
   tickets: "/user/tickets",
   settings: "/user/settings",

@@ -34,15 +34,21 @@ const GlobalRouter = () => {
 
       {/* Member/Customer Protected Routes */}
       <Route element={<AuthGuard roles={[RolesEnum.MEMBER]} />}>
+        <Route element={<Layout />}>
+          <Route
+            path={PATH_USER.profile}
+            element={<CustomerProfilePage />}
+          />
+          <Route
+            path={PATH_USER.updateProfile}
+            element={<CustomerProfilePage />}
+          />
+          <Route path={PATH_USER.tickets} element={<NotFoundPage />} />
+        </Route>
         <Route
           path={PATH_USER.completeProfile}
           element={<CustomerCompleteProfile />}
         />
-        <Route
-          path={PATH_USER.updateProfile}
-          element={<CustomerProfilePage />}
-        />
-        <Route path={PATH_USER.tickets} element={<NotFoundPage />} />
       </Route>
 
       {/* Admin Protected Routes */}
