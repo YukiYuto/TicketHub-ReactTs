@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PATH_PUBLIC } from "@/routes/paths";
 import useAuth from "@/hooks/useAuth.hook";
-import toast from "@/utils/toast";
+import toast from "@/utils/toast/toast";
 
 const VerifyEmailPage = () => {
   const navigate = useNavigate();

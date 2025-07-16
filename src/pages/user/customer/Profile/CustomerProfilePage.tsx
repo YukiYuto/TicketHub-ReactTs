@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "@/hooks/useAuth.hook";
+import AvatarUpload from "@/components/common/AvatarUpload";
 import "@styles/customer/CustomerProfile.css";
 
 const CustomerProfilePage = () => {
-  const { user } = useAuth();
+  const { user, completeCustomerProfile, updateCustomerProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({
     fullName: user?.fullName || "",
@@ -16,9 +17,23 @@ const CustomerProfilePage = () => {
     cccd: user?.cccd || "",
   });
 
+  useEffect(() => {
+    if (user && !isEditing) {
+      setEditedUser({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        address: user.address || "",
+        gender: user.gender || "",
+        birthDate: user.birthDate || "",
+        country: user.country || "",
+        cccd: user.cccd || "",
+      });
+    }
+  }, [user, isEditing]);
+
   const handleEditProfile = () => {
     setIsEditing(true);
-    // Reset editedUser với data hiện tại
     setEditedUser({
       fullName: user?.fullName || "",
       email: user?.email || "",
@@ -29,12 +44,6 @@ const CustomerProfilePage = () => {
       country: user?.country || "",
       cccd: user?.cccd || "",
     });
-  };
-
-  const handleSave = () => {
-    // TODO: Implement save profile functionality
-    console.log("Save profile:", editedUser);
-    setIsEditing(false);
   };
 
   const handleCancel = () => {
@@ -59,22 +68,37 @@ const CustomerProfilePage = () => {
     }));
   };
 
-  const handleChangeAvatar = () => {
-    // TODO: Implement change avatar functionality
-    console.log("Change avatar clicked");
+  const handleChangeAvatar = async (avatarUrl: string) => {
+    try {
+      console.log("New avatar URL:", avatarUrl);
+
+      // Chỉ update avatar URL thôi
+      const success = await updateCustomerProfile({ avatarUrl });
+      if (success) {
+        console.log("Avatar updated successfully!");
+      }
+    } catch (error) {
+      console.error("Failed to update avatar:", error);
+    }
   };
 
-  // const handleViewPublicProfile = () => {
-  //   // TODO: Implement view public profile functionality
-  //   console.log("View public profile clicked");
-  // };
+  const handleSave = async () => {
+    const profileData = {
+      ...editedUser,
+      birthDate: editedUser.birthDate
+        ? new Date(editedUser.birthDate)
+        : new Date(),
+    };
+
+    await completeCustomerProfile(profileData);
+    setIsEditing(false);
+  };
 
   return (
     <div className="customer-profile-page">
       <div className="profile-container">
         {/* Header */}
         <div className="profile-header">
-          {/* <h1 className="profile-title">{user?.fullName || "Customer Name"}</h1> */}
           <h1 className="profile-title">Customer Profile</h1>
         </div>
 
@@ -82,25 +106,11 @@ const CustomerProfilePage = () => {
         <div className="profile-content">
           {/* Avatar Section */}
           <div className="profile-avatar-section">
-            <div className="avatar-container">
-              <div className="profile-avatar">
-                {user?.avatarUrl ? (
-                  <img src={user.avatarUrl} alt="Profile" />
-                ) : (
-                  <span className="avatar-placeholder">👤</span>
-                )}
-                <button
-                  className="change-avatar-btn"
-                  onClick={handleChangeAvatar}
-                  title="Change Avatar"
-                >
-                  📷
-                </button>
-              </div>
-              <div className="change-avatar-text" onClick={handleChangeAvatar}>
-                Change Profile Picture
-              </div>
-            </div>
+            <AvatarUpload
+              currentAvatar={user?.avatarUrl}
+              onAvatarChange={handleChangeAvatar}
+              size="large"
+            />
 
             {/* Action Buttons */}
             <div className="profile-actions">

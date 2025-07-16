@@ -167,7 +167,7 @@ export interface IAuthContext {
   completeCustomerProfile: (
     profile: ICompleteCustomerProfile
   ) => Promise<boolean>;
-  // updateCustomerProfile: (profile: IUpdateCustomerProfileDTO) => Promise<void>;
+  updateCustomerProfile: (profile: IUpdateCustomerProfileDTO) => Promise<boolean>;
 }
 
 export type IRoles = "MEMBER" | "STAFF" | "ADMIN" | "ORGANIZATION";
