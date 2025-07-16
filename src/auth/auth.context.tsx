@@ -20,6 +20,7 @@ import type {
   IVerifyEmailDTO,
   ISignUpResponseDTO,
   ICompleteCustomerProfile,
+  IUpdateCustomerProfileDTO,
 } from "@/types/auth.types";
 import { IAuthContextActionTypes } from "@/types/auth.types";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +38,7 @@ import {
   COMPLETE_PROFILE_URL,
 } from "@utils/apiUrl/authApiUrl";
 import { PATH_PUBLIC } from "@routes/paths";
-import toast from "@/utils/toast";
+import toast from "@/utils/toast/toast";
 
 // Initial state object for useReducer hook
 const initialAuthState: IAuthContextState = {
@@ -375,6 +376,47 @@ const AuthContextProvider = ({ children }: IProps) => {
     [navigate]
   );
 
+  // Update Customer Profile
+  const updateCustomerProfile = useCallback(
+    async (updateData: IUpdateCustomerProfileDTO) => {
+      try {
+        const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
+          COMPLETE_PROFILE_URL,
+          updateData
+        );
+
+        const updateResult = response.data;
+        if (!updateResult.isSuccess) {
+          toast.error("Failed to update profile!");
+          return false;
+        }
+
+        // Lưu token mới từ response (giống như completeProfile)
+        const { accessToken, refreshToken } = updateResult.result;
+        setJwtTokenSession(accessToken, refreshToken);
+        
+        // Load user info với token mới
+        const userInfoResponse = await axiosInstance.get<IResponseDTO<IUserInfo>>(
+          GET_USER_INFO_URL
+        );
+        const userInfo = userInfoResponse.data.result;
+
+        dispatch({
+          type: IAuthContextActionTypes.COMPLETE_PROFILE,
+          payload: userInfo,
+          isFullInfo: true,
+        });
+
+        toast.success("Profile updated successfully!");
+        return true;
+      } catch (error) {
+        toast.error("An error occurred while updating profile!");
+        return false;
+      }
+    },
+    []
+  );
+
   //signOut
   const signOut = useCallback(async () => {
     try {
@@ -402,6 +444,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     verifyEmail: verifyEmail,
     signOut: signOut,
     completeCustomerProfile: completeProfile,
+    updateCustomerProfile: updateCustomerProfile,
   };
 
   return (
