@@ -7,6 +7,7 @@ export const PATH_PUBLIC = {
   signUpOrganizer: "/user/sign-up-organizer",
   unauthorized: "/unauthorized",
   notFound: "/404",
+  eventPage: "/event",
 };
 
 export const PATH_ADMIN = {

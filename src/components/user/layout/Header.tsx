@@ -59,7 +59,7 @@ const Header = () => {
 
         {/* Navigation Menu */}
         <nav className="header-nav">
-          <Link to={PATH_PUBLIC.notFound} className="nav-link">
+          <Link to={PATH_PUBLIC.eventPage} className="nav-link">
             Events
           </Link>
           <Link to={PATH_PUBLIC.notFound} className="nav-link">

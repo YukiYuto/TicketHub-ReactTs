@@ -14,6 +14,7 @@ import { RolesEnum } from "@/types/auth.types";
 import AuthGuard from "@/auth/authGuard";
 import CustomerCompleteProfile from "@/pages/authentication/CustomerCompleteProfile";
 import CustomerProfilePage from "@/pages/user/customer/Profile/CustomerProfilePage";
+import EventPage from "@/pages/user/EventPage";
 
 const GlobalRouter = () => {
   return (
@@ -28,6 +29,7 @@ const GlobalRouter = () => {
           element={<SignUpOrganizer />}
         />
         <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
+        <Route path={PATH_PUBLIC.eventPage} element={<EventPage />} />
         <Route path={PATH_PUBLIC.unauthorized} element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
@@ -35,10 +37,7 @@ const GlobalRouter = () => {
       {/* Member/Customer Protected Routes */}
       <Route element={<AuthGuard roles={[RolesEnum.MEMBER]} />}>
         <Route element={<Layout />}>
-          <Route
-            path={PATH_USER.profile}
-            element={<CustomerProfilePage />}
-          />
+          <Route path={PATH_USER.profile} element={<CustomerProfilePage />} />
           <Route
             path={PATH_USER.updateProfile}
             element={<CustomerProfilePage />}

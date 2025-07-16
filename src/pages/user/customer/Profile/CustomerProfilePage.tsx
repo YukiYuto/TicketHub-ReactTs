@@ -70,15 +70,9 @@ const CustomerProfilePage = () => {
 
   const handleChangeAvatar = async (avatarUrl: string) => {
     try {
-      console.log("New avatar URL:", avatarUrl);
-
-      // Chỉ update avatar URL thôi
-      const success = await updateCustomerProfile({ avatarUrl });
-      if (success) {
-        console.log("Avatar updated successfully!");
-      }
-    } catch (error) {
-      console.error("Failed to update avatar:", error);
+      await updateCustomerProfile({ avatarUrl });
+    } catch (error: any) {
+      error.message;
     }
   };
 
