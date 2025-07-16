@@ -283,25 +283,25 @@ select.info-input {
   font-size: 1rem;
 }
 
-.btn-primary {
+.action-btn.btn-primary {
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 }
 
-.btn-primary:hover {
+.action-btn.btn-primary:hover {
   background: #fdba74;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
 }
 
-.btn-secondary {
+.action-btn.btn-secondary {
   background: white;
   color: #f97316;
   border: 2px solid #f97316;
 }
 
-.btn-secondary:hover {
+.action-btn.btn-secondary:hover {
   background: #f97316;
   color: white;
 }
