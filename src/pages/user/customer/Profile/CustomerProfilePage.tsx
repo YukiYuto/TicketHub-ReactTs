@@ -1,7 +1,283 @@
+import { useState } from "react";
+import useAuth from "@/hooks/useAuth.hook";
+import "@styles/customer/CustomerProfile.css";
+
 const CustomerProfilePage = () => {
+  const { user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState({
+    fullName: user?.fullName || "",
+    email: user?.email || "",
+    phoneNumber: user?.phoneNumber || "",
+    address: user?.address || "",
+    gender: user?.gender || "",
+    birthDate: user?.birthDate || "",
+    country: user?.country || "",
+    cccd: user?.cccd || "",
+  });
+
+  const handleEditProfile = () => {
+    setIsEditing(true);
+    // Reset editedUser với data hiện tại
+    setEditedUser({
+      fullName: user?.fullName || "",
+      email: user?.email || "",
+      phoneNumber: user?.phoneNumber || "",
+      address: user?.address || "",
+      gender: user?.gender || "",
+      birthDate: user?.birthDate || "",
+      country: user?.country || "",
+      cccd: user?.cccd || "",
+    });
+  };
+
+  const handleSave = () => {
+    // TODO: Implement save profile functionality
+    console.log("Save profile:", editedUser);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset về giá trị ban đầu
+    setEditedUser({
+      fullName: user?.fullName || "",
+      email: user?.email || "",
+      phoneNumber: user?.phoneNumber || "",
+      address: user?.address || "",
+      gender: user?.gender || "",
+      birthDate: user?.birthDate || "",
+      country: user?.country || "",
+      cccd: user?.cccd || "",
+    });
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setEditedUser((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleChangeAvatar = () => {
+    // TODO: Implement change avatar functionality
+    console.log("Change avatar clicked");
+  };
+
+  // const handleViewPublicProfile = () => {
+  //   // TODO: Implement view public profile functionality
+  //   console.log("View public profile clicked");
+  // };
+
   return (
-    <div>
-      <h1>Customer Profile</h1>
+    <div className="customer-profile-page">
+      <div className="profile-container">
+        {/* Header */}
+        <div className="profile-header">
+          {/* <h1 className="profile-title">{user?.fullName || "Customer Name"}</h1> */}
+          <h1 className="profile-title">Customer Profile</h1>
+        </div>
+
+        {/* Content */}
+        <div className="profile-content">
+          {/* Avatar Section */}
+          <div className="profile-avatar-section">
+            <div className="avatar-container">
+              <div className="profile-avatar">
+                {user?.avatarUrl ? (
+                  <img src={user.avatarUrl} alt="Profile" />
+                ) : (
+                  <span className="avatar-placeholder">👤</span>
+                )}
+                <button
+                  className="change-avatar-btn"
+                  onClick={handleChangeAvatar}
+                  title="Change Avatar"
+                >
+                  📷
+                </button>
+              </div>
+              <div className="change-avatar-text" onClick={handleChangeAvatar}>
+                Change Profile Picture
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="profile-actions">
+              {!isEditing ? (
+                <button
+                  className="action-btn btn-primary"
+                  onClick={handleEditProfile}
+                >
+                  ✏️ Edit Profile
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="action-btn btn-primary"
+                    onClick={handleSave}
+                  >
+                    💾 Save
+                  </button>
+                  <button
+                    className="action-btn btn-secondary"
+                    onClick={handleCancel}
+                  >
+                    ❌ Cancel
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Information Section */}
+          <div className="profile-info-section">
+            <div className="info-header">
+              <h2 className="info-title">📋 Personal Information</h2>
+            </div>
+
+            <div className="info-content">
+              <div className="info-grid">
+                <div className="info-item">
+                  <span className="info-label">Full Name</span>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      className="info-input"
+                      value={editedUser.fullName}
+                      onChange={(e) =>
+                        handleInputChange("fullName", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.fullName}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Email</span>
+                  {isEditing ? (
+                    <input
+                      type="email"
+                      className="info-input"
+                      value={editedUser.email}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.email}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Phone</span>
+                  {isEditing ? (
+                    <input
+                      type="tel"
+                      className="info-input"
+                      value={editedUser.phoneNumber}
+                      onChange={(e) =>
+                        handleInputChange("phoneNumber", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.phoneNumber}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Address</span>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      className="info-input"
+                      value={editedUser.address}
+                      onChange={(e) =>
+                        handleInputChange("address", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.address}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Gender</span>
+                  {isEditing ? (
+                    <select
+                      className="info-input"
+                      value={editedUser.gender}
+                      onChange={(e) =>
+                        handleInputChange("gender", e.target.value)
+                      }
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  ) : (
+                    <div className="info-value">{user?.gender}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Birth Date</span>
+                  {isEditing ? (
+                    <input
+                      type="date"
+                      className="info-input"
+                      value={editedUser.birthDate}
+                      onChange={(e) =>
+                        handleInputChange("birthDate", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">
+                      {user?.birthDate
+                        ? new Date(user.birthDate).toLocaleDateString()
+                        : "Not specified"}
+                    </div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">Country</span>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      className="info-input"
+                      value={editedUser.country}
+                      onChange={(e) =>
+                        handleInputChange("country", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.country}</div>
+                  )}
+                </div>
+
+                <div className="info-item">
+                  <span className="info-label">CCCD/ID</span>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      className="info-input"
+                      value={editedUser.cccd}
+                      onChange={(e) =>
+                        handleInputChange("cccd", e.target.value)
+                      }
+                    />
+                  ) : (
+                    <div className="info-value">{user?.cccd}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

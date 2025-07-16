@@ -107,16 +107,19 @@ export interface IJwtTokenDTO {
 
 export interface IUserInfo {
   id: string;
-  userName: string;
   fullName: string;
-  gender: string;
-  birthDate: string;
   email: string;
-  country: string;
   phoneNumber: string;
+  birthDate: string;
   address: string;
-  updateTime: Date;
   avatarUrl?: string;
+  userName: string;
+  cccd?: string;
+  organizationName?: string;
+  taxId?: string;
+  gender?: string;
+  country: string;
+  updateTime: Date;
   roles: string[];
 }
 
