@@ -59,6 +59,9 @@ const Header = () => {
 
         {/* Navigation Menu */}
         <nav className="header-nav">
+          <Link to={PATH_PUBLIC.home} className="nav-link">
+            Home
+          </Link>
           <Link to={PATH_PUBLIC.eventPage} className="nav-link">
             Events
           </Link>
