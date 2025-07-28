@@ -10,20 +10,20 @@ import type {
   IAuthContextState,
   IAuthContextAction,
   IJwtTokenDTO,
-  IResponseDTO,
   IUserInfo,
   ISignInDTO,
   ISignInResponseDTO,
   ISignInByGoogleDTO,
-  ISignInByGoogleResponseDto,
+  ISignInByGoogleResponseDTO,
   ISignUpCustomerDTO,
   IVerifyEmailDTO,
   ISignUpResponseDTO,
   ICompleteCustomerProfile,
   IUpdateCustomerProfileDTO,
 } from "@/types/auth.types";
-import { IAuthContextActionTypes } from "@/types/auth.types";
+import { AuthContextActionTypes } from "@/types/auth.types";
 import { useNavigate } from "react-router-dom";
+import type { IResponseDTO } from "@/types/common.types";
 import { jwtDecode } from "jwt-decode";
 import { getJwtTokenSession, setJwtTokenSession } from "@/auth/auth.utilities";
 import axiosInstance from "@utils/axios/axiosInstance";
@@ -51,8 +51,8 @@ const initialAuthState: IAuthContextState = {
 const authReducer = (state: IAuthContextState, action: IAuthContextAction) => {
   switch (action.type) {
     // Handle the SIGNIN action
-    case IAuthContextActionTypes.SIGNIN:
-    case IAuthContextActionTypes.SIGNINBYGOOGLE:
+    case AuthContextActionTypes.SIGNIN:
+    case AuthContextActionTypes.SIGNIN_BY_GOOGLE:
       return {
         ...state, //3 chấm là sao chép tất cả các thuộc tính của state
         isAuthenticated: true,
@@ -61,20 +61,20 @@ const authReducer = (state: IAuthContextState, action: IAuthContextAction) => {
         user: action.payload as IUserInfo,
       };
     // Handle the SIGNOUT action
-    case IAuthContextActionTypes.SIGNOUT:
+    case AuthContextActionTypes.SIGNOUT:
       return {
         ...initialAuthState, // Reset to initial state
         isAuthLoading: false, // Set loading to false after signout
       };
     // Handle the COMPLETE_PROFILE action
-    case IAuthContextActionTypes.COMPLETE_PROFILE:
+    case AuthContextActionTypes.COMPLETE_PROFILE:
       return {
         ...state,
         isFullInfo: true,
         user: action.payload as IUserInfo,
       };
     // Handle the SET_LOADING action
-    case IAuthContextActionTypes.SET_LOADING:
+    case AuthContextActionTypes.SET_LOADING:
       return {
         ...state,
         isAuthLoading:
@@ -167,16 +167,16 @@ const AuthContextProvider = ({ children }: IProps) => {
       const userInfo: IUserInfo = userInfoResponse.data.result;
 
       dispatch({
-        type: IAuthContextActionTypes.SIGNIN,
+        type: AuthContextActionTypes.SIGNIN,
         payload: userInfo,
         isFullInfo: true,
       });
     } catch (error) {
       setJwtTokenSession(null, null);
-      dispatch({ type: IAuthContextActionTypes.SIGNOUT });
+      dispatch({ type: AuthContextActionTypes.SIGNOUT });
     } finally {
       // Always set loading to false when initialization is complete
-      dispatch({ type: IAuthContextActionTypes.SET_LOADING, payload: false });
+      dispatch({ type: AuthContextActionTypes.SET_LOADING, payload: false });
     }
   }, []);
 
@@ -223,7 +223,7 @@ const AuthContextProvider = ({ children }: IProps) => {
         const userInfo = userInfoResponse.data.result;
 
         dispatch({
-          type: IAuthContextActionTypes.SIGNIN,
+          type: AuthContextActionTypes.SIGNIN,
           payload: userInfo,
         });
         toast.success("Sign In Successful");
@@ -239,12 +239,12 @@ const AuthContextProvider = ({ children }: IProps) => {
   const signInByGoogle = useCallback(
     async (signInGoogle: ISignInByGoogleDTO) => {
       try {
-        const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
+        const response = await axiosInstance.post<ISignInByGoogleResponseDTO>(
           SIGNIN_BY_GOOGLE_URL,
           signInGoogle
         );
 
-        const signInResponse: ISignInByGoogleResponseDto = response.data;
+        const signInResponse: ISignInByGoogleResponseDTO = response.data;
         if (!signInResponse.isSuccess) {
           toast.error(signInResponse.message || "Sign in by Google failed!");
           return false;
@@ -262,7 +262,7 @@ const AuthContextProvider = ({ children }: IProps) => {
         const userInfo = userInfoResponse.data.result;
 
         dispatch({
-          type: IAuthContextActionTypes.SIGNINBYGOOGLE,
+          type: AuthContextActionTypes.SIGNIN_BY_GOOGLE,
           payload: userInfo,
           isFullInfo: isProfileComplete,
         });
@@ -342,12 +342,12 @@ const AuthContextProvider = ({ children }: IProps) => {
   const completeProfile = useCallback(
     async (completeProfileData: ICompleteCustomerProfile) => {
       try {
-        const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
+        const response = await axiosInstance.post<ISignInByGoogleResponseDTO>(
           COMPLETE_PROFILE_URL,
           completeProfileData
         );
 
-        const completeUserDto = response.data;
+        const completeUserDto: ISignInByGoogleResponseDTO = response.data;
         if (!completeUserDto.isSuccess) {
           toast.error("Profile completed failed!");
           return false;
@@ -361,7 +361,7 @@ const AuthContextProvider = ({ children }: IProps) => {
         const userInfo = userInfoResponse.data.result;
 
         dispatch({
-          type: IAuthContextActionTypes.COMPLETE_PROFILE,
+          type: AuthContextActionTypes.COMPLETE_PROFILE,
           payload: userInfo,
           isFullInfo: true,
         });
@@ -380,12 +380,12 @@ const AuthContextProvider = ({ children }: IProps) => {
   const updateCustomerProfile = useCallback(
     async (updateData: IUpdateCustomerProfileDTO) => {
       try {
-        const response = await axiosInstance.post<ISignInByGoogleResponseDto>(
+        const response = await axiosInstance.post<ISignInByGoogleResponseDTO>(
           COMPLETE_PROFILE_URL,
           updateData
         );
 
-        const updateResult = response.data;
+        const updateResult: ISignInByGoogleResponseDTO = response.data;
         if (!updateResult.isSuccess) {
           toast.error("Failed to update profile!");
           return false;
@@ -394,15 +394,15 @@ const AuthContextProvider = ({ children }: IProps) => {
         // Lưu token mới từ response (giống như completeProfile)
         const { accessToken, refreshToken } = updateResult.result;
         setJwtTokenSession(accessToken, refreshToken);
-        
+
         // Load user info với token mới
-        const userInfoResponse = await axiosInstance.get<IResponseDTO<IUserInfo>>(
-          GET_USER_INFO_URL
-        );
+        const userInfoResponse = await axiosInstance.get<
+          IResponseDTO<IUserInfo>
+        >(GET_USER_INFO_URL);
         const userInfo = userInfoResponse.data.result;
 
         dispatch({
-          type: IAuthContextActionTypes.COMPLETE_PROFILE,
+          type: AuthContextActionTypes.COMPLETE_PROFILE,
           payload: userInfo,
           isFullInfo: true,
         });
@@ -422,7 +422,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     try {
       setJwtTokenSession(null, null);
       dispatch({
-        type: IAuthContextActionTypes.SIGNOUT,
+        type: AuthContextActionTypes.SIGNOUT,
       });
       toast.success("Sign Out Successful");
       return true;
@@ -431,6 +431,11 @@ const AuthContextProvider = ({ children }: IProps) => {
       return false;
     }
   }, []);
+
+  // TODO: Cần implement signUpOrganizer đúng logic
+  const signUpOrganizer = async () => {
+    throw new Error("signUpOrganizer not implemented");
+  };
 
   const valuesObject = {
     isAuthenticated: state.isAuthenticated,
@@ -441,6 +446,7 @@ const AuthContextProvider = ({ children }: IProps) => {
     signInByEmailPassword: signInByEmailPassword,
     signInByGoogle: signInByGoogle,
     signUpCustomer: signUpCustomer,
+    signUpOrganizer: signUpOrganizer,
     verifyEmail: verifyEmail,
     signOut: signOut,
     completeCustomerProfile: completeProfile,

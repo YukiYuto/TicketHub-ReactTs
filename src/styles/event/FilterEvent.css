@@ -1,0 +1,80 @@
+/* Filter Event Component Styles */
+
+/* Theme Variables */
+:root {
+  --accent-color: #f97316;
+  --accent-hover: #ea580c;
+  --bg-card: white;
+  --text-primary: #1e293b;
+  --border-primary: #e2e8f0;
+}
+
+[data-theme="dark"] {
+  --accent-color: #f97316;
+  --accent-hover: #ea580c;
+  --bg-card: #1e293b;
+  --text-primary: #f1f5f9;
+  --border-primary: #475569;
+}
+
+.filter-event-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  justify-content: flex-end;
+}
+
+.filter-event-select {
+  border-radius: 8px;
+  border: 1.5px solid var(--border-primary);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 0.75rem 1.2rem;
+  font-size: 1rem;
+  height: 44px;
+  transition: border 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+.filter-event-select:focus,
+.filter-event-select:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1);
+  outline: none;
+}
+
+.filter-event-select-category {
+  min-width: 140px;
+}
+
+.filter-event-select-filter {
+  min-width: 120px;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .filter-event-section {
+  background: var(--bg-secondary, #1e293b);
+}
+
+[data-theme="dark"] .filter-event-select {
+  background: var(--bg-card, #1e293b);
+  color: var(--text-primary, #f1f5f9);
+  border-color: var(--border-primary, #475569);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-event-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .filter-event-select {
+    margin-right: 0;
+    width: 100%;
+  }
+}

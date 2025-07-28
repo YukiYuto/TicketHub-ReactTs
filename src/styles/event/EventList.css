@@ -1,0 +1,70 @@
+/* Event List Component Styles */
+
+/* Container và date-time section */
+.event-list-date-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.event-list-time {
+  color: #f97316;
+  font-weight: 500;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.event-date {
+  color: #ea580c !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* View Details Button */
+.event-list-view-details-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #f97316;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+  margin-top: auto;
+}
+
+.event-list-view-details-btn:hover {
+  background: #ea580c;
+  box-shadow: 0 4px 8px rgba(249, 115, 22, 0.4);
+}
+
+/* Event Description */
+.event-list-description {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #666);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .event-list-date-time {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .event-list-time {
+    font-size: 1rem;
+  }
+}

@@ -1,5 +1,4 @@
 import Layout from "@/components/user/layout";
-import HomePage from "@/pages/home/HomePage";
 import NotFoundPage from "@/pages/public/NotFoundPage";
 import UnauthorizedPage from "@/pages/public/UnauthorizedPage";
 import { Route, Routes } from "react-router-dom";
@@ -14,7 +13,9 @@ import { RolesEnum } from "@/types/auth.types";
 import AuthGuard from "@/auth/authGuard";
 import CustomerCompleteProfile from "@/pages/authentication/CustomerCompleteProfile";
 import CustomerProfilePage from "@/pages/user/customer/Profile/CustomerProfilePage";
-import EventPage from "@/pages/user/EventPage";
+import EventPage from "@/pages/public/event/EventPage";
+import TicketPage from "@/pages/public/ticket/TicketPage";
+import HomePage from "@/pages/home/HomePage";
 
 const GlobalRouter = () => {
   return (
@@ -30,6 +31,7 @@ const GlobalRouter = () => {
         />
         <Route path={PATH_PUBLIC.verifyEmail} element={<VerifyEmailPage />} />
         <Route path={PATH_PUBLIC.eventPage} element={<EventPage />} />
+        <Route path={PATH_PUBLIC.ticketPage} element={<TicketPage />} />
         <Route path={PATH_PUBLIC.unauthorized} element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
