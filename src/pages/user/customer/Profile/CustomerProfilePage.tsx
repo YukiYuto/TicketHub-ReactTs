@@ -12,7 +12,9 @@ const CustomerProfilePage = () => {
     phoneNumber: user?.phoneNumber || "",
     address: user?.address || "",
     gender: user?.gender || "",
-    birthDate: user?.birthDate || "",
+    birthDate: user?.birthDate
+      ? new Date(user.birthDate).toISOString().split("T")[0]
+      : "",
     country: user?.country || "",
     cccd: user?.cccd || "",
   });
@@ -25,7 +27,9 @@ const CustomerProfilePage = () => {
         phoneNumber: user.phoneNumber || "",
         address: user.address || "",
         gender: user.gender || "",
-        birthDate: user.birthDate || "",
+        birthDate: user.birthDate
+          ? new Date(user.birthDate).toISOString().split("T")[0]
+          : "",
         country: user.country || "",
         cccd: user.cccd || "",
       });
@@ -40,7 +44,9 @@ const CustomerProfilePage = () => {
       phoneNumber: user?.phoneNumber || "",
       address: user?.address || "",
       gender: user?.gender || "",
-      birthDate: user?.birthDate || "",
+      birthDate: user?.birthDate
+        ? new Date(user.birthDate).toISOString().split("T")[0]
+        : "",
       country: user?.country || "",
       cccd: user?.cccd || "",
     });
@@ -55,7 +61,9 @@ const CustomerProfilePage = () => {
       phoneNumber: user?.phoneNumber || "",
       address: user?.address || "",
       gender: user?.gender || "",
-      birthDate: user?.birthDate || "",
+      birthDate: user?.birthDate
+        ? new Date(user.birthDate).toISOString().split("T")[0]
+        : "",
       country: user?.country || "",
       cccd: user?.cccd || "",
     });
@@ -71,21 +79,29 @@ const CustomerProfilePage = () => {
   const handleChangeAvatar = async (avatarUrl: string) => {
     try {
       await updateCustomerProfile({ avatarUrl });
+      // Optionally show success message
     } catch (error: any) {
-      error.message;
+      console.error("Failed to update avatar:", error.message);
+      // Optionally show error message
     }
   };
 
   const handleSave = async () => {
-    const profileData = {
-      ...editedUser,
-      birthDate: editedUser.birthDate
-        ? new Date(editedUser.birthDate)
-        : new Date(),
-    };
+    try {
+      const profileData = {
+        ...editedUser,
+        birthDate: editedUser.birthDate
+          ? new Date(editedUser.birthDate)
+          : new Date(),
+      };
 
-    await completeCustomerProfile(profileData);
-    setIsEditing(false);
+      await completeCustomerProfile(profileData);
+      setIsEditing(false);
+      // Optionally show success message
+    } catch (error: any) {
+      console.error("Failed to save profile:", error.message);
+      // Optionally show error message
+    }
   };
 
   return (
@@ -240,7 +256,11 @@ const CustomerProfilePage = () => {
                   ) : (
                     <div className="info-value">
                       {user?.birthDate
-                        ? new Date(user.birthDate).toLocaleDateString()
+                        ? new Date(user.birthDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
                         : "Not specified"}
                     </div>
                   )}
