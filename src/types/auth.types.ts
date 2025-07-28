@@ -1,3 +1,5 @@
+import type { IResponseDTO } from "./common.types";
+
 export interface ISignInDTO {
   email: string;
   password: string;
@@ -5,13 +7,6 @@ export interface ISignInDTO {
 
 export interface ISignInByGoogleDTO {
   token: string;
-}
-
-interface IBaseAuthResponseDto<T> {
-  result: T;
-  isSuccess: boolean;
-  statusCode: number;
-  message: string;
 }
 
 interface ISignInResult {
@@ -23,9 +18,8 @@ interface ISignInByGoogleResult extends ISignInResult {
   isProfileComplete: boolean;
 }
 
-export type ISignInResponseDTO = IBaseAuthResponseDto<ISignInResult>;
-export type ISignInByGoogleResponseDto =
-  IBaseAuthResponseDto<ISignInByGoogleResult>;
+export type ISignInResponseDTO = IResponseDTO<ISignInResult>;
+export type ISignInByGoogleResponseDTO = IResponseDTO<ISignInByGoogleResult>;
 
 export interface ISignUpCustomerDTO {
   email: string;
@@ -46,7 +40,7 @@ export interface ISignUpOrganizerDTO {
   confirmPassword: string;
   fullName: string;
   phoneNumber: string;
-  dateOfBirth: string;
+  birthDate: Date;
   address: string;
   country: string;
   idNumber: string;
@@ -81,36 +75,20 @@ export interface IVerifyEmailDTO {
   token: string;
 }
 
-export interface IResponseDTO<T> {
-  result: T;
-  isSuccess: boolean;
-  statusCode: number;
-  message: string;
-}
+export interface ISignUpResponseDTO extends IResponseDTO<string> {}
 
-export interface ISignUpResponseDTO {
-  result: string;
-  isSuccess: boolean;
-  statusCode: number;
-  message: string;
-}
-
-export interface IJwtTokenDTO {
-  result: {
+export interface IJwtTokenDTO
+  extends IResponseDTO<{
     accessToken: string;
     refreshToken: string;
-  };
-  isSuccess: boolean;
-  statusCode: number;
-  message: string;
-}
+  }> {}
 
 export interface IUserInfo {
   id: string;
   fullName: string;
   email: string;
   phoneNumber: string;
-  birthDate: string;
+  birthDate: Date; // Sửa từ string sang Date để nhất quán
   address: string;
   avatarUrl?: string;
   userName: string;
@@ -126,18 +104,18 @@ export interface IUserInfo {
 export type IAuthContextActionTypes =
   | "INITIAL"
   | "SIGNIN"
-  | "SIGNINBYGOOGLE"
+  | "SIGNIN_BY_GOOGLE"
   | "SIGNOUT"
   | "COMPLETE_PROFILE"
   | "SET_LOADING";
 
-export const IAuthContextActionTypes = {
-  INITIAL: "INITIAL" as "INITIAL",
-  SIGNIN: "SIGNIN" as "SIGNIN",
-  SIGNINBYGOOGLE: "SIGNINBYGOOGLE" as "SIGNINBYGOOGLE",
-  SIGNOUT: "SIGNOUT" as "SIGNOUT",
-  COMPLETE_PROFILE: "COMPLETE_PROFILE" as "COMPLETE_PROFILE",
-  SET_LOADING: "SET_LOADING" as "SET_LOADING",
+export const AuthContextActionTypes = {
+  INITIAL: "INITIAL" as const,
+  SIGNIN: "SIGNIN" as const,
+  SIGNIN_BY_GOOGLE: "SIGNIN_BY_GOOGLE" as const,
+  SIGNOUT: "SIGNOUT" as const,
+  COMPLETE_PROFILE: "COMPLETE_PROFILE" as const,
+  SET_LOADING: "SET_LOADING" as const,
 };
 
 export interface IAuthContextAction {
@@ -163,18 +141,21 @@ export interface IAuthContext {
   signInByGoogle: (signInGoogle: ISignInByGoogleDTO) => Promise<boolean>;
   signOut: () => Promise<boolean>;
   signUpCustomer: (signUpField: ISignUpCustomerDTO) => Promise<void>;
+  signUpOrganizer: (signUpField: ISignUpOrganizerDTO) => Promise<void>; // Thêm method bị thiếu
   verifyEmail: (verifyEmail: IVerifyEmailDTO) => Promise<void>;
   completeCustomerProfile: (
     profile: ICompleteCustomerProfile
   ) => Promise<boolean>;
-  updateCustomerProfile: (profile: IUpdateCustomerProfileDTO) => Promise<boolean>;
+  updateCustomerProfile: (
+    profile: IUpdateCustomerProfileDTO
+  ) => Promise<boolean>;
 }
 
 export type IRoles = "MEMBER" | "STAFF" | "ADMIN" | "ORGANIZATION";
 
 export const RolesEnum = {
-  MEMBER: "MEMBER" as "MEMBER",
-  STAFF: "STAFF" as "STAFF",
-  ADMIN: "ADMIN" as "ADMIN",
-  ORGANIZATION: "ORGANIZATION" as "ORGANIZATION",
-};
+  MEMBER: "MEMBER" as const,
+  STAFF: "STAFF" as const,
+  ADMIN: "ADMIN" as const,
+  ORGANIZATION: "ORGANIZATION" as const,
+} as const;
